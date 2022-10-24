@@ -9,6 +9,8 @@ container: muuk/muuktest_v1:0.1
 
 steps:
   - script: |
+      sudo apt install google-chrome-stable
+  - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
       echo **********************************************************************
