@@ -6,6 +6,10 @@ pool:
   vmImage: ubuntu-latest
   
 container: muuk/muuktest_v1:0.1
+
+variables:
+  GRADLE_OPTS: -Xmx1024m -XX:MaxMetaspaceSize=256m
+  GRADLE_USER_HOME: .gradle-home
   
 steps:
   - script: |
