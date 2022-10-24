@@ -1,2 +1,2 @@
 # azurepipeline
-test azure integration
+test azure integration test
