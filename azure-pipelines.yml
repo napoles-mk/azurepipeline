@@ -11,6 +11,9 @@ steps:
   - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
+      echo **********************************************************************
+      printenv
+      echo **********************************************************************
       Xvfb :99 -screen 0 1366x768x16 -nolisten tcp -fbdir /var/run > /dev/null 2>&1 &
       export DISPLAY=:99
       git clone https://github.com/muuklabs/executor.git
