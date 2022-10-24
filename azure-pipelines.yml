@@ -3,7 +3,7 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'Ubuntu-20.04'
   
 container: muuk/muuktest_v1:0.1
 
