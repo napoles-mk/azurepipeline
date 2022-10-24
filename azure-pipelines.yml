@@ -31,6 +31,6 @@ steps:
       cat build.gradle
     displayName: 'Clone and configure executor'
     
-    - script: |
+  - script: |
       python3.7 mkcli.py -p tag -t TC20516 -browser chrome
     displayName: 'Run mkcli'
