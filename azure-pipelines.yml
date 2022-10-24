@@ -7,15 +7,16 @@ pool:
 
 steps:
   - script: |
-      sudo apt install google-chrome-stable
-    displayName: 'Install Chrome'
-    
-  - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
-      echo **********************************************************************
+    displayName: 'Set environment variables'
+      
+  - script: |
+      sudo apt install google-chrome-stable
       google-chrome --version
-      echo **********************************************************************
+    displayName: 'Install Chrome'
+      
+  - script: |
       Xvfb :99 -screen 0 1366x768x16 -nolisten tcp -fbdir /var/run > /dev/null 2>&1 &
       export DISPLAY=:99
       ps -ef | grep Xvfb
@@ -26,6 +27,10 @@ steps:
       cat key.pub
       chmod 755 gradlew
       chmod 755 key.pub
-      sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
+      sed -i 's/79.0.3945.36/106.0.5249.61/g' build.gradle
       cat build.gradle
+    displayName: 'Clone and configure executor'
+    
+    - script: |
       python3.7 mkcli.py -p tag -t TC20516 -browser chrome
+    displayName: 'Run mkcli'
