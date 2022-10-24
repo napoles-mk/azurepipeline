@@ -11,6 +11,8 @@ steps:
   - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
+      wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      dpkg -i google-chrome-stable_current_amd64.deb
       echo **********************************************************************
       google-chrome --version
       echo **********************************************************************
@@ -23,6 +25,6 @@ steps:
       cat key.pub
       chmod 755 gradlew
       chmod 755 key.pub
-      sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
+      sed -i 's/79.0.3945.36/106.0.5249.61/g' build.gradle
       cat build.gradle
       python3.7 mkcli.py -p tag -t TC20516 -browser firefox
