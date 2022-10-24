@@ -11,8 +11,7 @@ steps:
   - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
-      wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      sudo dpkg -i google-chrome-stable_current_amd64.deb
+      apt-get install chrome-stable
       echo **********************************************************************
       google-chrome --version
       echo **********************************************************************
