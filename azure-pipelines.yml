@@ -25,4 +25,4 @@ steps:
       chmod 755 key.pub
       sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
       cat build.gradle
-      python3.7 mkcli.py -p hashtag -t uno -browser chrome
+      python3.7 mkcli.py -p tag -t TC20516 -browser firefox
