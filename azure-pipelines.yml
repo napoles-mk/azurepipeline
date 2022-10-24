@@ -20,6 +20,6 @@ steps:
       cat key.pub
       chmod 755 gradlew
       chmod 755 key.pub
-      sed -i 's/79.0.3945.36/90.0.4430.24/g' build.gradle
+      sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
       cat build.gradle
       python3.7 mkcli.py -p tag -t TC29623 -browser chrome
