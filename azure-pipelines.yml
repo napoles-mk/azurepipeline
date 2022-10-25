@@ -4,14 +4,29 @@ trigger:
 
 pool:
   vmImage: 'Ubuntu-20.04'
-  
-container: muuk/muuktest_v1:0.1
 
 steps:
   - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
     displayName: 'Set environment variables'
+    
+  - script: |
+        apt-get update
+        apt-get install -y software-properties-common
+        apt-get install -y tmux
+        apt-get install -y ffmpeg
+    displayName: 'Set tmux'
+
+  - script: |
+        yes "" | add-apt-repository ppa:deadsnakes/ppa || true
+        apt-get update
+        apt install python3.7 -y
+        curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+        python3.7 get-pip.py
+        pip3 install requests
+        pip3 install Pillow
+    displayName: 'Install python and dependencies'
       
   - script: |
       Xvfb :99 -screen 0 1366x768x16 -nolisten tcp -fbdir /var/run > /dev/null 2>&1 &
@@ -19,15 +34,24 @@ steps:
       ps -ef | grep Xvfb
       git clone https://github.com/muuklabs/executor.git
       cd executor/
-      git checkout master
+      git checkout videoEnabled
       printf '4jyis7x8sjjtn1evnckkm-kbsu65pxboqt2684pig0yc-5mg10jllousjlj2631l93-nsb8askfsreep5gqgb013s' > key.pub
       cat key.pub
       chmod 755 gradlew
       chmod 755 key.pub
-      sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
+      sed -i 's/79.0.3945.36/106.0.5249.61/g' build.gradle
       cat build.gradle
     displayName: 'Clone and configure executor'
     
+  - script: |
+      ps -ef | grep Xvfb
+      python3.7 --version
+      google-chrome -version
+      firefox -version
+      tmux -V
+      ffmpeg -version
+    displayName: 'Verify settings'
+      
   - script: |
       python3.7 mkcli.py -p tag -t TC20516 -browser chrome
     displayName: 'Run mkcli'
