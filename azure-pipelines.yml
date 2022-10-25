@@ -28,7 +28,7 @@ steps:
       sed -i 's/79.0.3945.36/106.0.5249.61/g' build.gradle
       sed -i 's/0.23.0/0.31.0/g' build.gradle
       cat build.gradle
-      python3.8 mkcli.py -p tag -t TC20516 -browser chrome
+      python3.7 mkcli.py -p tag -t TC20516 -browser chrome
     displayName: 'Clone and run executor'
     env:
       MUUKTEST_KEY: $(MuuktestKey)
