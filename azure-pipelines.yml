@@ -24,8 +24,8 @@ steps:
         sudo apt install python3.7 -y
         curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
         sudo python3.7 get-pip.py
-        sudo pip3 install requests
-        sudo pip3 install Pillow
+        sudo pip3.7 install requests
+        sudo pip3.7 install Pillow
     displayName: 'Install python and dependencies'
     
   - script: |
