@@ -4,7 +4,8 @@ trigger:
 
 pool:
   vmImage: 'Ubuntu-20.04'
-
+  
+container: muuk/muuktest_v1:0.1
 
 steps:
 
@@ -12,33 +13,6 @@ steps:
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
     displayName: 'Set environment variables'
-    
-  - script: |
-      sudo apt-get update
-      sudo apt-get install -y software-properties-common
-      sudo apt-get install -y tmux
-      sudo apt-get install -y ffmpeg
-    displayName: 'Set tmux'
-
-  - script: |
-      #yes "" | sudo add-apt-repository ppa:deadsnakes/ppa || true
-      #sudo apt-get update
-      #sudo apt install python3.7 -y
-      #curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-      #sudo apt install -y python3-distutils
-      #sudo apt install -y python3-pip
-      sudo pip3 install requests
-      sudo pip3 install Pillow
-    displayName: 'Install python and dependencies'
-    
-  - script: |
-      python3.8 --version
-      pip3 --version
-      google-chrome -version
-      firefox -version
-      tmux -V
-      ffmpeg -version
-    displayName: 'Verify installations'
 
   - script: |
       Xvfb :99 -screen 0 1366x768x16 &
