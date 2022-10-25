@@ -19,18 +19,18 @@ steps:
     displayName: 'Set tmux'
 
   - script: |
-      yes "" | sudo add-apt-repository ppa:deadsnakes/ppa || true
-      sudo apt-get update
-      sudo apt install python3.7 -y
-      curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-      sudo apt install -y python3-distutils
-      sudo apt install -y python3-pip
+      #yes "" | sudo add-apt-repository ppa:deadsnakes/ppa || true
+      #sudo apt-get update
+      #sudo apt install python3.7 -y
+      #curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+      #sudo apt install -y python3-distutils
+      #sudo apt install -y python3-pip
       sudo pip3 install requests
       sudo pip3 install Pillow
     displayName: 'Install python and dependencies'
     
   - script: |
-      python3.7 --version
+      python3.8 --version
       pip3 --version
       google-chrome -version
       firefox -version
@@ -51,5 +51,5 @@ steps:
       chmod 755 key.pub
       sed -i 's/79.0.3945.36/106.0.5249.61/g' build.gradle
       cat build.gradle
-      python3.7 mkcli.py -p tag -t TC20516 -browser chrome
+      python3.8 mkcli.py -p tag -t TC20516 -browser chrome
     displayName: 'Clone and run executor'
