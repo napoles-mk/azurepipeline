@@ -19,8 +19,8 @@ steps:
     displayName: 'Set tmux'
 
   - script: |
-        yes "" | add-apt-repository ppa:deadsnakes/ppa || true
         sudo apt-get update
+        sudo add-apt-repository ppa:deadsnakes/ppa
         sudo apt install python3.7 -y
         curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
         sudo python3.7 get-pip.py
