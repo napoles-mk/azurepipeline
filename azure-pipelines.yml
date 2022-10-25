@@ -12,20 +12,20 @@ steps:
     displayName: 'Set environment variables'
     
   - script: |
-        apt-get update
-        apt-get install -y software-properties-common
-        apt-get install -y tmux
-        apt-get install -y ffmpeg
+        sudo apt-get update
+        sudo apt-get install -y software-properties-common
+        sudo apt-get install -y tmux
+        sudo apt-get install -y ffmpeg
     displayName: 'Set tmux'
 
   - script: |
         yes "" | add-apt-repository ppa:deadsnakes/ppa || true
-        apt-get update
-        apt install python3.7 -y
+        sudo apt-get update
+        sudo apt install python3.7 -y
         curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-        python3.7 get-pip.py
-        pip3 install requests
-        pip3 install Pillow
+        sudo python3.7 get-pip.py
+        sudo pip3 install requests
+        sudo pip3 install Pillow
     displayName: 'Install python and dependencies'
       
   - script: |
