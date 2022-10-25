@@ -27,7 +27,8 @@ steps:
       chmod 755 key.pub
       sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
       cat build.gradle
-      python3.7 mkcli.py -p tag -t TC20516 -browser chrome
+      python3.7 mkcli.py -p hashtag -t $MUUK_HASHTAGH -browser chrome
     displayName: 'Clone and run executor'
     env:
       MUUKTEST_KEY: $(MuuktestKey)
+      MUUK_HASHTAGH: $(MuukHashtag)
