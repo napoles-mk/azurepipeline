@@ -5,7 +5,9 @@ trigger:
 pool:
   vmImage: 'Ubuntu-20.04'
 
+
 steps:
+
   - script: |
       export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
       export GRADLE_USER_HOME=".gradle-home"
@@ -37,7 +39,7 @@ steps:
       tmux -V
       ffmpeg -version
     displayName: 'Verify installations'
-      
+
   - script: |
       Xvfb :99 -screen 0 1366x768x16 &
       export DISPLAY=:99
@@ -45,7 +47,7 @@ steps:
       git clone https://github.com/muuklabs/executor.git
       cd executor/
       git checkout master
-      printf '4jyis7x8sjjtn1evnckkm-kbsu65pxboqt2684pig0yc-5mg10jllousjlj2631l93-nsb8askfsreep5gqgb013s' > key.pub
+      printf $MUUKTEST_KEY > key.pub
       cat key.pub
       chmod 755 gradlew
       chmod 755 key.pub
@@ -54,3 +56,5 @@ steps:
       cat build.gradle
       python3.8 mkcli.py -p tag -t TC20516 -browser chrome
     displayName: 'Clone and run executor'
+    env:
+      MUUKTEST_KEY: $(MuuktestKey)
