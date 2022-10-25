@@ -20,7 +20,7 @@ steps:
       ps -ef | grep Xvfb
       git clone https://github.com/muuklabs/executor.git
       cd executor/
-      git checkout master
+      git checkout videoEnabled
       printf $MUUKTEST_KEY > key.pub
       cat key.pub
       chmod 755 gradlew
