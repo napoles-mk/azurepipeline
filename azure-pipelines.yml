@@ -39,4 +39,4 @@ steps:
     env:
       MUUKTEST_KEY: $(MuuktestKey)
       MUUK_PROPERTY: $(MuuktestProperty)
-      MUUK_HASHTAGH: $(MuuktestHashtag)
+      MUUK_HASHTAGH: $(MuuktestValue)
