@@ -10,11 +10,6 @@ container: mcr.microsoft.com/playwright:next
 steps:
 
   - script: |
-      export GRADLE_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=256m"
-      export GRADLE_USER_HOME=".gradle-home"
-    displayName: 'Set environment variables'
-
-  - script: |
       mkdir -p executor
       cd executor
       sudo apt-get update
