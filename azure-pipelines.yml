@@ -33,7 +33,11 @@ steps:
       unzip -o test.zip -d ./test
       npm install -D @playwright/test
       npm install axios
-      npm initall archiver
+      npm install archiver
+      npm install cheerio
+      npm install xpath
+      npm install @xmldom/xmldom
+      npm install @faker-js/faker
       npx playwright test --project=chromium
     displayName: 'Clone and run executor'
     env:
