@@ -5,7 +5,7 @@ trigger:
 pool:
   vmImage: 'Ubuntu-20.04'
   
-container: muuk/muuktest_v1:0.1
+container: mcr.microsoft.com/playwright:next
 
 steps:
 
@@ -15,20 +15,28 @@ steps:
     displayName: 'Set environment variables'
 
   - script: |
-      Xvfb :99 -screen 0 1366x768x16 &
-      export DISPLAY=:99
-      ps -ef | grep Xvfb
-      git clone https://github.com/muuklabs/executor.git
-      cd executor/
-      git checkout videoEnabled
-      printf $MUUKTEST_KEY > key.pub
-      cat key.pub
-      chmod 755 gradlew
-      chmod 755 key.pub
-      sed -i 's/79.0.3945.36/86.0.4240.22/g' build.gradle
-      cat build.gradle
-      python3.7 mkcli.py -p hashtag -t $MUUK_HASHTAGH -browser chrome
+      mkdir -p executor
+      cd executor
+      sudo apt-get update
+      sudo apt-get install -y jq
+      sudo apt-get install -y unzip
+      node -v
+      printf '{ "key": "%s"}' $MUUKTEST_KEY > file.json
+      curl -H  "Content-Type: application/json" -X POST -d @file.json 'https://portal.muuktest.com:8081/generate_token_executer' -o "token.json"
+      curl -X POST https://portal.muuktest.com:8081/api/v1/downloadpwfiles -k -d @file.json -H "Content-Type: application/json" -o ./config.zip
+      unzip -o config.zip -d .
+      TOKEN=$(jq --raw-output .token token.json)
+      printf "Authorization: Bearer %s" $TOKEN > header.txt
+      MUUK_USERID_TOKEN=$(jq --raw-output .userId token.json)
+      printf '{"property": "%s", "value": ["%s"], "platform": "pw", "userId": "%s"}' $MUUK_PROPERTY $MUUK_HASHTAGH $MUUK_USERID_TOKEN > body.json
+      curl -X POST https://portal.muuktest.com:8081/download_byproperty -H @header.txt -d @body.json -H "Content-Type: application/json" -o ./test.zip
+      unzip -o test.zip -d ./test
+      npm install -D @playwright/test
+      npm install axios
+      npm initall archiver
+      npx playwright test --project=chromium
     displayName: 'Clone and run executor'
     env:
       MUUKTEST_KEY: $(MuuktestKey)
-      MUUK_HASHTAGH: $(MuukHashtag)
+      MUUK_PROPERTY: $(MuuktestProperty)
+      MUUK_HASHTAGH: $(MuuktestHashtag)
