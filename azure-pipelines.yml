@@ -33,7 +33,7 @@ steps:
       curl -X POST https://portal.muuktest.com:8081/download_byproperty -H @header.txt -d @body.json -H "Content-Type: application/json" -o ./test.zip
       [ -d "./test" ] && rm -r test
       unzip -o test.zip -d ./test
-      npm install -D @playwright/test                                              ║
+      npm install -D @playwright/test@latest
       npx playwright install --with-deps chromium
       npm install axios
       npm install archiver
