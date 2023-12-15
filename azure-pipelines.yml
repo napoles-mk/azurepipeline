@@ -2,51 +2,61 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
+- job: Build
+  steps:
+  - script: echo Build and deploy your application
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18'
-  displayName: 'Install Node.js'
+- job: Deployment
+  steps:
+  - script: echo Build and deploy your application
+  dependsOn: Build
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      mkdir -p executor
-      cd executor
-      sudo apt-get update
-      sudo apt-get install gcc g++ make
-      sudo apt-get install -y jq
-      sudo apt-get install -y unzip
-      node -v
-      printf '{ "key": "%s"}' $MUUKTEST_KEY > file.json
-      cat file.json
-      curl -H  "Content-Type: application/json" -X POST -d @file.json 'https://portal.muuktest.com:8081/generate_token_executer' -o "token.json"
-      curl -X POST https://portal.muuktest.com:8081/api/v1/downloadpwfiles -k -d @file.json -H "Content-Type: application/json" -o ./config.zip
-      unzip -o config.zip -d .
-      TOKEN=$(jq --raw-output .token token.json)
-      printf "Authorization: Bearer %s" $TOKEN > header.txt
-      MUUK_USERID_TOKEN=$(jq --raw-output .userId token.json)
-      printf '{"property": "%s", "value": ["%s"], "platform": "pw", "userId": "%s"}' $MUUK_PROPERTY $MUUK_VALUE $MUUK_USERID_TOKEN > body.json
-      cat body.json
-      curl -X POST https://portal.muuktest.com:8081/download_byproperty -H @header.txt -d @body.json -H "Content-Type: application/json" -o ./test.zip
-      [ -d "./test" ] && rm -r test
-      unzip -o test.zip -d ./test
-      npm install -D @playwright/test@latest
-      npx playwright install --with-deps chromium
-      npm install axios
-      npm install archiver
-      npm install cheerio
-      npm install xpath
-      npm install @xmldom/xmldom
-      npm install @faker-js/faker
-      npx playwright test --project=chromium
-  displayName: 'Execute MuukTest E2E'
-  env:
-    MUUKTEST_KEY: $(MuuktestKey)
-    MUUK_PROPERTY: $(MuuktestProperty)
-    MUUK_VALUE: $(MuuktestValue)
-    CI: 'true'
+- job: MuukTestE2E
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18'
+    displayName: 'Install Node.js'
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        mkdir -p executor
+        cd executor
+        sudo apt-get update
+        sudo apt-get install gcc g++ make
+        sudo apt-get install -y jq
+        sudo apt-get install -y unzip
+        node -v
+        printf '{ "key": "%s"}' $MUUKTEST_KEY > file.json
+        cat file.json
+        curl -H  "Content-Type: application/json" -X POST -d @file.json 'https://portal.muuktest.com:8081/generate_token_executer' -o "token.json"
+        curl -X POST https://portal.muuktest.com:8081/api/v1/downloadpwfiles -k -d @file.json -H "Content-Type: application/json" -o ./config.zip
+        unzip -o config.zip -d .
+        TOKEN=$(jq --raw-output .token token.json)
+        printf "Authorization: Bearer %s" $TOKEN > header.txt
+        MUUK_USERID_TOKEN=$(jq --raw-output .userId token.json)
+        printf '{"property": "%s", "value": ["%s"], "platform": "pw", "userId": "%s"}' $MUUK_PROPERTY $MUUK_VALUE $MUUK_USERID_TOKEN > body.json
+        cat body.json
+        curl -X POST https://portal.muuktest.com:8081/download_byproperty -H @header.txt -d @body.json -H "Content-Type: application/json" -o ./test.zip
+        [ -d "./test" ] && rm -r test
+        unzip -o test.zip -d ./test
+        npm install -D @playwright/test
+        npx playwright install --with-deps chromium
+        npm install axios
+        npm install archiver
+        npm install cheerio
+        npm install xpath
+        npm install @xmldom/xmldom
+        npm install @faker-js/faker
+        npx playwright test --project=chromium
+    displayName: 'Execute MuukTest E2E'
+    env:
+      MUUKTEST_KEY: $(MuuktestKey)
+      MUUK_PROPERTY: $(MuuktestProperty)
+      MUUK_VALUE: $(MuuktestValue)
+      CI: 'true'
+  dependsOn: Deployment
