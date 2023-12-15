@@ -18,7 +18,7 @@ steps:
     script: |
       mkdir -p executor
       cd executor
-      apt-get update
+      sudo apt-get update
       apt-get install -y jq
       apt-get install -y unzip
       node -v
