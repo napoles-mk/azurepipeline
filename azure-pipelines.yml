@@ -18,8 +18,8 @@ steps:
       mkdir -p executor
       cd executor
       sudo apt-get update
-      apt-get install -y jq
-      apt-get install -y unzip
+      sudo apt-get install -y jq
+      sudo apt-get install -y unzip
       node -v
       printf '{ "key": "%s"}' $MUUKTEST_KEY > file.json
       curl -H  "Content-Type: application/json" -X POST -d @file.json 'https://portal.muuktest.com:8081/generate_token_executer' -o "token.json"
