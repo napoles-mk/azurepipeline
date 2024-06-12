@@ -52,7 +52,7 @@ jobs:
         npm install xpath
         npm install @xmldom/xmldom
         npm install @faker-js/faker
-        npx playwright test --project=chromium
+        npx playwright test --project=chromium --retries=0
     displayName: 'Execute MuukTest E2E'
     env:
       MUUKTEST_KEY: $(MuuktestKey)
