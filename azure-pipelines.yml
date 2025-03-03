@@ -19,7 +19,7 @@ jobs:
     inputs:
       versionSpec: '18'
     displayName: 'Install Node.js'
-  - task: PowerShell@2
+  - task: Bash@3
     inputs:
       targetType: 'inline'
       script: |
