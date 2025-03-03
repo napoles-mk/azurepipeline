@@ -44,6 +44,10 @@ jobs:
         curl -X POST https://portal.muuktest.com:8081/download_byproperty -H @header.txt -d @body.json -H "Content-Type: application/json" -o ./test.zip
         [ -d "./test" ] && rm -r test
         unzip -o test.zip -d ./test
+        if [ "$BASE_TEST_URL" != "" ]; then
+          echo "Base URL: " $BASE_TEST_URL
+          sed -i '/let baseurl =/a\  baseurl = `'$BASE_TEST_URL'`;' ./test/TestSteps_*.spec.ts
+        fi
         npm install -D @playwright/test
         npx playwright install --with-deps chromium
         npm install axios
@@ -58,5 +62,6 @@ jobs:
       MUUKTEST_KEY: $(MuuktestKey)
       MUUK_PROPERTY: $(MuuktestProperty)
       MUUK_VALUE: $(MuuktestValue)
+      BASE_TEST_URL: $(BaseURL)
       CI: 'true'
   dependsOn: Deployment
